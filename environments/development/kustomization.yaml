@@ -8,15 +8,18 @@ resources:
 namespace: dev
 
 images:
-- name: gcr.io/uoo-01/oms/oms-auth
-  newTag: 3c4f2c35-develop
+- name: nginx
+  newTag: alpine
 
 patchesJson6902:
 - path: overlays/patch-service-nodeport.yaml
   target:
     kind: Service
-    name: oms-frontend-service
+    name: example-service
     version: v1
+
+patchesStrategicMerge:
+- replica-count.yaml
 
 secretGenerator:
 - envs:
