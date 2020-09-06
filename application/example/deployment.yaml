@@ -8,6 +8,11 @@ metadata:
 spec:
   replicas: 1
   revisionHistoryLimit: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
   selector:
     matchLabels:
       app: example
@@ -24,3 +29,14 @@ spec:
         - containerPort: 80
           name: example-port
           protocol: TCP
+        env:
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: secrets-env
+              key: DATABASE_PASSWORD
+        - name: TEST
+          valueFrom:
+            configMapKeyRef:
+              name: configmap-env
+              key: TEST
