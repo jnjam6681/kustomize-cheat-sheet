@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: example-service
+  labels:
+    app: example
+spec:
+  selector:
+    app: example
+  ports:
+  - port: 80
+    targetPort: example-port
+    protocol: TCP

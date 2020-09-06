@@ -3,51 +3,28 @@ kind: Kustomization
 
 resources:
 - ./namespace.yaml
-- ../../application/oms-auth
+- ../../application/example
 
-namespace: oms-dev
-
-# for kind rollout
-configurations:
-- https://argoproj.github.io/argo-rollouts/features/kustomize/rollout-transform.yaml
+namespace: dev
 
 images:
 - name: gcr.io/uoo-01/oms/oms-auth
   newTag: 3c4f2c35-develop
-- name: gcr.io/uoo-01/oms/oms-auto-booking
-  newTag: 751aa1b5-develop
-- name: gcr.io/uoo-01/oms/oms-booking
-  newTag: 500985e9-develop
-- name: gcr.io/uoo-01/oms/oms-dropdown
-  newTag: b2ba045f-develop
-- name: gcr.io/uoo-01/oms/oms-frontend
-  newTag: 6b3f7a79-developer
-- name: gcr.io/uoo-01/oms/oms-sso
-  newTag: b8449765-developer
-- name: gcr.io/uoo-01/oms/oms-tracking
-  newTag: 77bcea83-develop
-- name: gcr.io/uoo-01/oms/scg-booking
-  newTag: 81305e61-develop
 
 patchesJson6902:
-- path: overlays/patch-frontend-service-nodeport.yaml
+- path: overlays/patch-service-nodeport.yaml
   target:
     kind: Service
     name: oms-frontend-service
     version: v1
-- path: overlays/patch-sso-service-nodeport.yaml
-  target:
-    kind: Service
-    name: oms-sso-service
-    version: v1
 
 secretGenerator:
 - envs:
-  - config/secret-env-vault
-  name: secrets-env-vault
+  - config/secret-env
+  name: secrets-env
   type: Opaque
 
 configMapGenerator:
 - envs:
-  - config/configmap-env-auth
-  name: configmap-env-auth
+  - config/configmap-env
+  name: configmap-env
