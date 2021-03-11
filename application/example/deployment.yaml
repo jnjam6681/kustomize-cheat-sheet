@@ -21,6 +21,15 @@ spec:
       labels:
         app: example
     spec:
+      initContainers:
+      - name: init-myservice
+        image: busybox:1.28
+        env:
+        - name: VAULT_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: secrets-env
+              key: VAULT_TOKEN
       containers:
       - image: nginx:latest
         imagePullPolicy: IfNotPresent
